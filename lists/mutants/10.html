@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MutPy mutation report - mutation #10</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shCore.css" rel="stylesheet" type="text/css" />
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushPython.js" type="text/javascript"></script>
+<script type="text/javascript">
+    SyntaxHighlighter.all();
+    window.setTimeout(function () {
+        
+        $('.line.number26').attr('title', 'IOD');
+        
+    }, 0);
+</script>
+
+</head>
+<body>
+    <div class="container">
+        
+<div class="page-header">
+    <h1>Mutation #10</h1>
+</div>
+<h3>Details</h3>
+<ul>
+    <li>module - <code><module 'list' from 'C:\\Users\\dixit\\sem7\\MutationTesting\\.\\list.py'></code></li>
+    <li><span class="label label-success">killed</span> by <code>test_list.py::test_vector_add</code></li>
+    
+    <li>duration - 0.045 s</li>
+    
+    
+    <li>tests run - 7</li>
+    
+</ul>
+
+<h3>Exception traceback</h3>
+<pre>def test_vector_add():
+        my_vector = Vector([1, 2, 3, 4])
+        another = Vector([1, 2, 3, 4])
+>       assert str([2, 4, 6, 8]) == my_vector.add(another).display()
+E       AttributeError: 'NoneType' object has no attribute 'display'
+
+test_list.py:33: AttributeError</pre>
+
+<h3>Mutations</h3>
+<ul>
+    
+    <li>IOD - line 26</li>
+    
+</ul>
+<h3>Mutant</h3>
+<pre class="brush: python; first-line: 1; highlight: [26]; toolbar: false;">class List:
+    def __init__(self, elements=None):
+        self.items = elements if elements is not None else []
+    
+    def add(self, item):
+        self.items.append(item)
+    
+    def remove(self, item):
+        self.items.remove(item)
+    
+    def display(self):
+        return str(self.items)
+    
+    def size(self):
+        return len(self.items)
+    
+    def __getitem__(self, index):
+        return self.items[index]
+    
+    def __str__(self):
+        return str(self.items)
+
+
+class Vector(List):
+    
+    pass
+    
+    
+    
+    
+    
+    
+    def scalar_multiply(self, scalar):
+        result = [x * scalar for x in self.items]
+        return Vector(result)
+    
+    def display(self):
+        return str(self.items)
+
+
+class Stack(List):
+    
+    def push(self, item):
+        self.add(item)
+    
+    def pop(self):
+        if not (self.is_empty()):
+            return self.items.pop()
+        else:
+            return None
+    
+    def is_empty(self):
+        return len(self.items) == 0
+
+
+class Queue(List):
+    
+    def enqueue(self, item):
+        self.add(item)
+    
+    def dequeue(self):
+        if not (self.is_empty()):
+            return self.items.pop(0)
+        else:
+            return None
+    
+    def is_empty(self):
+        return len(self.items) == 0</pre>
+
+    </div>
+</body>
+</html>
