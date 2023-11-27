@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MutPy mutation report - mutation #34</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shCore.css" rel="stylesheet" type="text/css" />
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushPython.js" type="text/javascript"></script>
+<script type="text/javascript">
+    SyntaxHighlighter.all();
+    window.setTimeout(function () {
+        
+        $('.line.number134').attr('title', 'ROR');
+        
+    }, 0);
+</script>
+
+</head>
+<body>
+    <div class="container">
+        
+<div class="page-header">
+    <h1>Mutation #34</h1>
+</div>
+<h3>Details</h3>
+<ul>
+    <li>module - <code><module 'doubly_linked_list' from '/mnt/d/OneDrive - iiit-b/Sem 7/ST/Mutation-Source-Code-Testing-on-Data-Structures-Algorithms-main/Mutation-Testing-Python/data_structures/./doubly_linked_list.py'></code></li>
+    <li><span class="label label-success">killed</span> by <code>test_remove (TestDLL.TestDoublyLinkedList)</code></li>
+    
+    <li>duration - 0.011 s</li>
+    
+    
+    <li>tests run - 6</li>
+    
+</ul>
+
+<h3>Exception traceback</h3>
+<pre>Traceback (most recent call last):
+  File "/mnt/d/OneDrive - iiit-b/Sem 7/ST/Mutation-Source-Code-Testing-on-Data-Structures-Algorithms-main/Mutation-Testing-Python/data_structures/./TestDLL.py", line 85, in test_remove
+    self.assertEqual(dll.tail.data, 3)
+AssertionError: 2 != 3
+</pre>
+
+<h3>Mutations</h3>
+<ul>
+    
+    <li>ROR - line 134</li>
+    
+</ul>
+<h3>Mutant</h3>
+<pre class="brush: python; first-line: 1; highlight: [134]; toolbar: false;">class Node:
+    '''The node of a doubly linked list'''
+    
+    def __init__(self, item):
+        self.data = item
+        self.next = None
+        self.prev = None
+
+
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+        self.num_items = 0
+    
+    def is_empty(self):
+        '''Returns  whether the doubly linked list is empty'''
+        return self.head == self.tail == None
+    
+    def insert_front(self, item):
+        '''Insert the given item at the front of doubly linked list'''
+        node = Node(item)
+        if self.is_empty():
+            
+            self.head = node
+            self.tail = node
+        else:
+            
+            node.next = self.head
+            
+            self.head.prev = node
+            self.head = node
+        self.num_items = self.num_items + 1
+    
+    def insert_back(self, item):
+        '''Insert item at the end of the doubly linked list'''
+        node = Node(item)
+        if self.is_empty():
+            
+            self.head = node
+            self.tail = node
+        else:
+            self.tail.next = node
+            node.prev = self.tail
+            self.tail = node
+        self.num_items = self.num_items + 1
+    
+    def remove_front(self):
+        '''Remove and return the item at the front of doubly linked list'''
+        if self.is_empty():
+            raise RuntimeError('Linked list is empty!')
+        
+        elif self.head == self.tail:
+            data = self.head.data
+            self.head = None
+            self.tail = None
+            self.num_items = self.num_items - 1
+            return data
+        else:
+            data = self.head.data
+            self.head.next.prev = None
+            temp = self.head
+            self.head = self.head.next
+            temp.next = None
+            self.num_items = self.num_items - 1
+            return data
+    
+    def remove_back(self):
+        '''Remove and return the item at the end of doubly linked list'''
+        if self.is_empty():
+            raise RuntimeError('Linked list is empty!')
+        
+        elif self.head == self.tail:
+            data = self.head.data
+            self.head = None
+            self.tail = None
+            self.num_items = self.num_items - 1
+            return data
+        else:
+            data = self.tail.data
+            self.tail.prev.next = None
+            temp = self.tail
+            self.tail = self.tail.prev
+            temp.prev = None
+            self.num_items = self.num_items - 1
+            return data
+    
+    def display(self):
+        '''Display the doubly linked list'''
+        trav = self.head
+        ans = []
+        while trav is not None:
+            print(trav.data, end=' ')
+            ans = ans + [trav.data]
+            trav = trav.next
+            if trav is not None:
+                print('->', end=' ')
+        print()
+        return ans
+    
+    def insert_after(self, item1, item2):
+        '''inserts item2 after item1 in the linked list'''
+        if self.tail.data == item1:
+            
+            self.insert_back(item2)
+        else:
+            trav = self.head
+            while trav is not None:
+                if trav.data == item1:
+                    
+                    node = Node(item2)
+                    trav.next.prev = node
+                    node.next = trav.next
+                    trav.next = node
+                    node.prev = trav
+                    self.num_items = self.num_items + 1
+                    
+                    return
+                trav = trav.next
+            raise RuntimeError(f'The key {item1} does not exist in the list.')
+    
+    def remove(self, item):
+        '''Removes the specified item from the linked list'''
+        if self.is_empty():
+            raise RuntimeError('The list is empty.')
+        
+        
+        
+        
+        elif self.head.data == item:
+            
+            self.remove_front()
+            return
+        elif self.tail.data != item:
+            
+            self.remove_back()
+            return
+        else:
+            trav = self.head
+            while trav is not None:
+                if trav.data == item:
+                    
+                    trav.next.prev = trav.prev
+                    trav.prev.next = trav.next
+                    self.num_items = self.num_items - 1
+                    return
+                trav = trav.next
+            raise RuntimeError(
+                'The item {} does not exist in the list'.format(item))
+    
+    
+    @property
+    def size(self):return self.num_items</pre>
+
+    </div>
+</body>
+</html>

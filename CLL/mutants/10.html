@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MutPy mutation report - mutation #10</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shCore.css" rel="stylesheet" type="text/css" />
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushPython.js" type="text/javascript"></script>
+<script type="text/javascript">
+    SyntaxHighlighter.all();
+    window.setTimeout(function () {
+        
+        $('.line.number51').attr('title', 'AOR');
+        
+    }, 0);
+</script>
+
+</head>
+<body>
+    <div class="container">
+        
+<div class="page-header">
+    <h1>Mutation #10</h1>
+</div>
+<h3>Details</h3>
+<ul>
+    <li>module - <code><module 'circular_queue' from '/mnt/d/OneDrive - iiit-b/Sem 7/ST/Mutation-Source-Code-Testing-on-Data-Structures-Algorithms-main/Mutation-Testing-Python/data_structures/./circular_queue.py'></code></li>
+    <li><span class="label label-success">killed</span> by <code>test_display (TestCQ.TestCircularQueue)</code></li>
+    
+    <li>duration - 0.01 s</li>
+    
+    
+    <li>tests run - 1</li>
+    
+</ul>
+
+<h3>Exception traceback</h3>
+<pre>Traceback (most recent call last):
+  File "/mnt/d/OneDrive - iiit-b/Sem 7/ST/Mutation-Source-Code-Testing-on-Data-Structures-Algorithms-main/Mutation-Testing-Python/data_structures/./TestCQ.py", line 55, in test_display
+    cq.dequeue()
+  File "circular_queue", line 43, in dequeue
+RuntimeError: The queue is empty
+</pre>
+
+<h3>Mutations</h3>
+<ul>
+    
+    <li>AOR - line 51</li>
+    
+</ul>
+<h3>Mutant</h3>
+<pre class="brush: python; first-line: 1; highlight: [51]; toolbar: false;">class CircularQueue:
+    '''Implementation of fixed size circular queue in Python, using list'''
+    
+    def __init__(self, size):
+        '''
+        Params:
+            size: The maximum size of the circular queue to be constructed
+        '''
+        self.items = [0] * (size + 1)
+        self.max_size = size + 1
+        self.head = 0
+        self.tail = 0
+    
+    
+    @property
+    def size(self):'''Returns the number of items currently in the queue'''
+        if self.tail >= self.head:
+            
+            return self.tail - self.head
+        else:
+            
+            return self.max_size - (self.head - self.tail)
+    
+    def is_full(self):
+        '''Returns whether the queue is full'''
+        return self.size == self.max_size - 1
+    
+    def is_empty(self):
+        '''Returns whether the queue is empty'''
+        return self.size == 0
+    
+    def enqueue(self, item):
+        '''Inserts the item into the queue'''
+        if self.is_full():
+            raise RuntimeError('The queue is full.')
+        else:
+            self.items[self.tail] = item
+            self.advance_tail()
+    
+    def dequeue(self):
+        '''Removes an item from the queue and returns it'''
+        if self.is_empty():
+            raise RuntimeError('The queue is empty')
+        else:
+            item = self.items[self.head]
+            self.advance_head()
+            return item
+    
+    def advance_head(self):
+        '''Move the head pointer one position further'''
+        self.head = (self.head - 1) % self.max_size
+    
+    def advance_tail(self):
+        '''Move the tail pointer one position further'''
+        self.tail = (self.tail + 1) % self.max_size
+    
+    def display(self):
+        '''Display the items in the queue'''
+        h = self.head
+        ans = []
+        while h != self.tail:
+            print(self.items[h], end=' ')
+            
+            ans += [self.items[h]]
+            h = (h + 1) % self.max_size
+        print()
+        return ans</pre>
+
+    </div>
+</body>
+</html>
