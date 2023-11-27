@@ -1,0 +1,10 @@
+mut.py --target doubly_linked_list.py --unit-test TestDLL -m        91.4
+mut.py --target BinarySearch.py --unit-test TestBS -m               93.8
+mut.py --target stack.py --unit-test TestSt -m                      100
+mut.py --target Queue.py --unit-test TestQ -m                       87.5
+mut.py --target linked_list.py --unit-test TestLL -m                94.4
+mut.py --target circular_queue.py --unit-test TestCQ -m             84 -> 100
+mut.py --target binary_search_tree.py --unit-test TestBST -m             84 -> 100
+
+
+--report-html Dir --colored-output
